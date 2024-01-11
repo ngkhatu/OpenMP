@@ -1,0 +1,73 @@
+\documentstyle[11pt,epsfig,multirow,times]{article}
+
+%\newcommand{\SF}[1]{{\fontsize{11}{11pt}\sffamily#1}}
+
+%==============================================================
+%\setlength{\oddsidemargin}{-0.1in}
+%\setlength{\evensidemargin}{-0.1in}
+%\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{8in}
+%\setlength{\topmargin}{0in}
+%\setlength{\headheight}{0in}
+%\setlength{\headsep}{0in}
+
+%==============================================================
+%\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+
+\title{Parallelization of Gaussian Elimination}
+\author{Yan Solihin~\thanks{Copyright \copyright 2008 by Solihin Publishing \& Consulting LLC. No part of this publication may be reproduced, stored in a retrieval system, or transmitted by any means (electronic, mechanical, photocopying, recording, or otherwise) without the prior written permission of the author. An exception is granted for academic lectures at universities and colleges, provided that the following text is included in such copy: Source: Yan Solihin, Fundamentals of Parallel Computer Architecture, 2008..}}
+\date{}
+\maketitle
+
+
+\section{Problem Description}
+
+Gaussian elimination is a method for solving a set of linear
+equations. In this problem, you will parallelize it at different 
+levels of granularity, and compare parallelism performance between them. In this assignment, 
+you are asked to parallelize the Gaussian Elimination code. The background
+materials that you may find useful can be found in Chapter 3, Section 3.8. 
+
+The code shows a system of linear equations of the following form: 
+$Y = AX$, where A is a $N\times N$ matrix, and X and Y are $N \times 1$ matrices. 
+The upper triangulation step is the most time consuming step. The diagonalization
+step is less time consuming, and the solution step is the least time consuming step. 
+Focus on only parallelizing the upper triangulation step. 
+
+\section{Assignments}
+
+\begin{enumerate}
+\item {\bf for pivot loop}. Your first assignment is to analyze the opportunities for 
+parallelizing the Gaussian elimination code at the ``for pivot'' loop level.  
+\item {\bf for i loop}. Your second assignment is to analyze the opportunities for 
+parallelizing the Gaussian elimination code at the ``for i'' loop level.  
+\item {\bf for j loop}. Your third assignment is to analyze the opportunities for 
+parallelizing the Gaussian elimination code at the ``for j'' loop level.  
+\end{enumerate}
+
+Perform and report the following for each of the three assignments:
+
+\begin{itemize}
+  \item Analyze the code. Show the Iteration Traversal Graph (ITG), 
+Loop-carried Dependence Graph (LDG) of the code. Then, analyze
+the sources of parallelism in the code. State why the loop is parallel or not, and
+if it is parallel, show what type of parallelism it has. 
+  \item If you find loops that exhibit DOALL parallelism, parallelize it with an appropriate
+OpenMP directives. Then, run the program and verify your results against 
+the correct output that is provided in the file called gauss.out. 
+  \item For all the loops you identify as parallel, vary the scheduling policy between static 
+and dynamic, as well as various chunk sizes, and observe their execution time.  
+  \item For all the loops you identify as parallel, measure and report the wall-clock execution 
+time of the program (both sequential and parallel versions with 2, 4, and 8 threads). 
+Then, plot the speedup curve comparing the parallel execution with various number of 
+threads with sequential execution. 
+  \item Write a short observation with regard to what loop parallelization is the most 
+fruitful, what scheduling policy is gives the best speedup, and explain the reasons for
+your observation. 
+\end{itemize}
+
+
+\end{document}
+

@@ -1,0 +1,80 @@
+#include <stdio.h>
+
+#define MATRIX_DIM 200
+#define NUM_ITER 10 
+/* Try the problems with higher value of MATRIX_DIM and NUM_ITER */
+
+double A[3][3] = {{3, 3, 3}, {4, 2, 3}, {2, 2, 6}};
+double Y[3] = {3, 6, 10};
+double X[3];
+
+
+#define MATRIX_DIM 3
+
+
+void print() 
+{
+  int i, j;
+  for (i=0; i<MATRIX_DIM; i++) {
+    for (j=0; j<MATRIX_DIM; j++) {
+      printf("%7.3f ", A[i][j]);
+    }
+    printf(" | %7.3f \n", Y[i]);
+  }
+}
+
+void printSol() 
+{
+  int i, j;
+  for (i=0; i<MATRIX_DIM; i++) {
+    printf(" X%d = %7.3f \n", i, X[i]);
+  }
+}
+
+
+int main() 
+{
+  double adjust;
+  int i, j, pivot;
+
+  // upper triangulation step
+  for (pivot=0; pivot<MATRIX_DIM-1; pivot++) {
+    for (i=pivot+1; i<MATRIX_DIM; i++) {
+      if (A[pivot][pivot] != 0) {
+        adjust = A[i][pivot] / A[pivot][pivot];
+      }
+      else {   // search and swap rows
+        panic("panic> swap not implemented yet: i=%d, pivot=%d\n", i,pivot);
+      }
+      printf("adjust = %f\n", adjust);
+      for (j=pivot; j<MATRIX_DIM; j++) {
+        A[i][j] = A[i][j] - adjust * A[pivot][j];   
+      }
+      Y[i] = Y[i] - adjust * Y[pivot];
+      print();
+    }
+  }
+
+  // diagonalization step
+  printf("--- Diagonalization \n");
+  for (pivot=MATRIX_DIM-1; pivot>0; pivot--) {
+    for (i=pivot-1; i>=0; i--) {
+      if (A[pivot][pivot] != 0) {
+        adjust = A[i][pivot] / A[pivot][pivot];
+      }
+      else {   // search and swap rows
+        panic("panic> swap not implemented yet: i=%d, pivot=%d\n", i,pivot);
+      }
+      printf("adjust = %f\n", adjust);
+      A[i][pivot] = A[i][pivot] - adjust * A[pivot][pivot];   
+      Y[i] = Y[i] - adjust * Y[pivot];
+      print();
+    }
+  }
+
+  // solution step
+  for (i=0; i<MATRIX_DIM; i++)
+    X[i] = Y[i] / A[i][i];
+  
+  printSol();
+}

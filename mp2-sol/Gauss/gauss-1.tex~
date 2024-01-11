@@ -1,0 +1,60 @@
+\documentstyle[11pt,epsfig,multirow,times]{article}
+
+\newcommand{\SF}[1]{{\fontsize{11}{11pt}\sffamily#1}}
+
+%==============================================================
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8in}
+\setlength{\topmargin}{0in}
+%\setlength{\headheight}{0in}
+%\setlength{\headsep}{0in}
+
+%==============================================================
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+
+\title{Programming Assignment: Gaussian Elimination}
+\author{Yan Solihin}
+\date{}
+\maketitle
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Consider a Gaussian elimination method for solving a set of linear
+equations. In this problem, you will parallelize it at different 
+levels of granularity, and compare parallelism performance between them. 
+
+The code shows a system of linear equations of the following form: 
+$Y = AX$, where A is a NxN matrix, and X and Y are Nx1 matrices. 
+Focus on parallelizing the upper triangulation step, which is the 
+most time consuming step. 
+
+For each of the sub-problem (1)--(3), perform  the following and report the outcome: 
+\begin{itemize}
+  \item Analyze the code. Show the Iteration Traversal Graph (ITG), 
+Loop-carried Dependence Graph (LDG) of the code. Then, analyze
+the sources of parallelism in the code. State why the loop is parallel or not, and
+if it is parallel, show what type of parallelism it has. 
+  \item Run the program and report the result that you obtain 
+(i.e., the program crashes, or the the value is ...)
+  \item Compute how many times the execution enters and exits a parallel section
+  \item Measure and report the wall-clock execution time of the program (both sequential
+and parallel versions with 2, 4, and 8 threads). 
+  \item Estimate the parallel overheads of entering and exiting a parallel section once
+  \item Compute the speedup ratios comparing the parallel execution with sequential
+execution when (1) the parallel overheads are included, and (2) the parallel overheads
+are not included. 
+\end{itemize}
+
+  \begin{enumerate}
+  \item ``for pivot'' loop 
+  \item ``for i'' loop
+  \item ``for j'' loop
+  \end{enumerate}
+
+\end{document}
+

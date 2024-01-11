@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+#define MATRIX_DIM 700
+#define NUM_ITER 10 
+/* Try the problems with higher value of MATRIX_DIM and NUM_ITER */
+
+
+// Answer should be:
+//	200 - Sum = 1316733.250000
+//	500 - Sum = 20729333.249992
+//	700 - Sum = 56962733.250002
+
+
+
+double A[MATRIX_DIM][MATRIX_DIM], 
+  B[MATRIX_DIM][MATRIX_DIM], 
+  Y[MATRIX_DIM][MATRIX_DIM],
+  sum;
+
+int n, i, j, k;
+
+
+int main() 
+{
+  /* Initialize Matrices A and B */
+  for (i=0; i<MATRIX_DIM; i++) {
+    for (j=0; j<MATRIX_DIM; j++) {
+      A[i][j] = i / (double) MATRIX_DIM;
+      B[i][j] = i*i / (double) (MATRIX_DIM * MATRIX_DIM);
+    }
+  }
+
+
+
+
+/* Perform several rounds of Y = A x B */
+omp_set_num_threads(4);
+//omp_set_num_threads(omp_get_num_procs());
+	for (n=0; n<NUM_ITER;  n++) {
+		//38, 19, 13, 9
+		//#pragma omp parallel for default(shared) private(i,j,k)
+		for (i=0; i<MATRIX_DIM; i++) {
+			//35, 17, 12, 10
+			//#pragma omp parallel for default(shared) private(j,k)			
+			for (j=0; j<MATRIX_DIM; j++) {
+				Y[i][j] = 0.0;
+				sum = 0;
+
+				// 36, 8, 7, 7
+				#pragma omp parallel for default(shared) reduction(+:sum)
+				for (k=0; k<MATRIX_DIM; k++) {
+					sum = sum + A[i][k] *B[k][j];
+					//Y[i][j] = Y[i][j] + A[i][k] * B[k][j];
+				}
+				Y[i][j] = sum;
+			}
+		}
+	}
+
+  /* Print out the sum of elements of Y */
+  sum = 0;
+  for (i=0; i<MATRIX_DIM; i++) {
+    for (j=0; j<MATRIX_DIM; j++) {
+      sum = sum + Y[i][j];
+    }
+  }
+  printf("Sum = %f\n", sum);
+}

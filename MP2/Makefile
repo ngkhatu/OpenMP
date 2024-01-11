@@ -1,0 +1,31 @@
+#This is the makefile you use to compile your openmp program
+
+FLAGS=-O0 -fopenmp -lrt
+
+
+
+all:
+	gcc btree.c $(FLAGS) -o btree
+	gcc gauss.c $(FLAGS) -o gauss
+	gcc hello.c $(FLAGS) -o hello
+	gcc histogram.c $(FLAGS) -o histogram
+	gcc matmult.c $(FLAGS) -o matmult
+	gcc reduce.c $(FLAGS) -o reduce
+	gcc tasking.c $(FLAGS) -o tasking
+clean:
+	rm -f btree gauss hello histogram matmult reduce tasking
+
+btree:
+	gcc btree.c $(FLAGS) -o btree
+gauss:
+	gcc gauss.c $(FLAGS) -o gauss
+hello:
+	gcc hello.c -fopenmp -o hello
+histogram:
+	gcc histogram.c $(FLAGS) -o histogram
+matmult:
+	gcc matmult.c $(FLAGS) -o matmult
+reduce:
+	gcc reduce.c $(FLAGS) -o reduce
+tasking:
+	gcc tasking.c $(FLAGS) -o tasking
